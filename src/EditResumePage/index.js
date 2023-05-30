@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { WithContext as ReactTags } from "react-tag-input";
 
 const EditResumePage = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,15 @@ const EditResumePage = () => {
     education: [{ institute: "", year: "", degree: "" }],
     experience: [{ company: "", year: "", designation: "" }],
   });
+  const [skills, setSkills] = useState([]);
+
+  const handleAddSkill = (newSkill) => {
+    setSkills([...skills, newSkill]);
+  };
+
+  const handleDeleteSkill = (index) => {
+    setSkills(skills.filter((_, i) => i !== index));
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -90,6 +100,61 @@ const EditResumePage = () => {
             {/* Experience Fields */}
             <div className="section">
               <hr className="my-4 bg-secondary" />
+              <h3 className=" text-primary">Education</h3>
+              <hr className="my-4 bg-secondary" />
+
+              {formData.education.map((edu, index) => (
+                <div key={index} className="form-group">
+                  {formData.education.length > 1 && (
+                    <h5 className="custom-text-primary font-weight-bold">
+                      Education {" " + (index + 1)}
+                    </h5>
+                  )}
+
+                  <label htmlFor={`company-${index}`}>Institute</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id={`institute-${index}`}
+                    name="institute"
+                    value={edu.institute}
+                    onChange={(e) => handleChange(e, "education", index)}
+                    required
+                  />
+                  <label htmlFor={`year-${index}`}>Year</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id={`year-${index}`}
+                    name="year"
+                    value={edu.year}
+                    onChange={(e) => handleChange(e, "education", index)}
+                    required
+                  />
+                  <label htmlFor={`year-${index}`}>Degree</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id={`degree-${index}`}
+                    name="degree"
+                    value={edu.degree}
+                    onChange={(e) => handleChange(e, "education", index)}
+                    required
+                  />
+                </div>
+              ))}
+              <div className="d-flex justify-content-end">
+                <button
+                  type="button"
+                  className="btn btn-secondary "
+                  onClick={() => handleAddField("education")}
+                >
+                  Add More
+                </button>
+              </div>
+            </div>
+            <div className="section">
+              <hr className="my-4 bg-secondary" />
               <h3 className=" text-primary">Experience</h3>
               <hr className="my-4 bg-secondary" />
 
@@ -133,16 +198,29 @@ const EditResumePage = () => {
                   />
                 </div>
               ))}
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => handleAddField("experience")}
-              >
-                Add More
-              </button>
+              <div className="d-flex justify-content-end">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => handleAddField("")}
+                >
+                  Add More
+                </button>
+              </div>
             </div>
 
-            <button type="submit" className="btn btn-primary">
+            <div>
+              <hr className="my-4 bg-secondary" />
+              <h3 className=" text-primary">Skills</h3>
+              <hr className="my-4 bg-secondary" />
+              <ReactTags
+                id="skills"
+                tags={skills}
+                handleAddition={handleAddSkill}
+                handleDelete={handleDeleteSkill}
+              />
+            </div>
+            <button type="submit" className="btn btn-primary btn-block my-4">
               Submit
             </button>
           </form>
