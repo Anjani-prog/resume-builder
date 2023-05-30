@@ -1,0 +1,32 @@
+.custom-text-primary {
+  color: #515153;
+}
+
+.ReactTags__tagInput {
+  width: 100%;
+  border-radius: 2px;
+  display: inline-block;
+}
+/* Styles for suggestions */
+.ReactTags__suggestions {
+  position: absolute;
+}
+.ReactTags__suggestions ul {
+  list-style-type: none;
+  background: white;
+  width: 200px;
+}
+.ReactTags__suggestions li {
+  border-bottom: 1px solid #ddd;
+  padding: 5px 10px;
+  margin: 0;
+}
+.ReactTags__suggestions li mark {
+  text-decoration: underline;
+  background: none;
+  font-weight: 600;
+}
+.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
+  background: #b7cfe0;
+  cursor: pointer;
+}

@@ -1,5 +1,19 @@
-import React, { useState } from "react";
 import { WithContext as ReactTags } from "react-tag-input";
+import { skills, skills as suggestions } from "./skills";
+import { Field, reduxForm } from "redux-form";
+
+const skillsuggestions = suggestions.map((skill) => {
+  return {
+    id: skill,
+    text: skill,
+  };
+});
+const KeyCodes = {
+  comma: 188,
+  enter: 13,
+};
+
+const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 const EditResumePage = () => {
   const [formData, setFormData] = useState({
@@ -10,16 +24,30 @@ const EditResumePage = () => {
     education: [{ institute: "", year: "", degree: "" }],
     experience: [{ company: "", year: "", designation: "" }],
   });
-  const [skills, setSkills] = useState([]);
 
-  const handleAddSkill = (newSkill) => {
-    setSkills([...skills, newSkill]);
+  const [tags, setTags] = React.useState([{ id: "react", text: "react" }]);
+
+  const handleDelete = (i) => {
+    setTags(tags.filter((tag, index) => index !== i));
   };
 
-  const handleDeleteSkill = (index) => {
-    setSkills(skills.filter((_, i) => i !== index));
+  const handleAddition = (tag) => {
+    setTags([...tags, tag]);
   };
 
+  const handleDrag = (tag, currPos, newPos) => {
+    const newTags = tags.slice();
+
+    newTags.splice(currPos, 1);
+    newTags.splice(newPos, 0, tag);
+
+    // re-render
+    setTags(newTags);
+  };
+
+  const handleTagClick = (index) => {
+    console.log("The tag at index " + index + " was clicked");
+  };
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -33,12 +61,16 @@ const EditResumePage = () => {
   };
 
   const handleAddField = (section) => {
+    const obj =
+      section === "education"
+        ? { institute: "", year: "", degree: "" }
+        : {
+            company: "",
+            year: "",
+            designation: "",
+          };
     const updatedFormData = { ...formData };
-    updatedFormData[section].push({
-      company: "",
-      year: "",
-      designation: "",
-    });
+    updatedFormData[section].push(obj);
     setFormData(updatedFormData);
   };
 
@@ -110,7 +142,16 @@ const EditResumePage = () => {
                       Education {" " + (index + 1)}
                     </h5>
                   )}
-
+                  <label htmlFor={`course-${index}`}>Course</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id={`course-${index}`}
+                    name="course"
+                    value={edu.course}
+                    onChange={(e) => handleChange(e, "education", index)}
+                    required
+                  />
                   <label htmlFor={`company-${index}`}>Institute</label>
                   <input
                     type="text"
@@ -131,31 +172,21 @@ const EditResumePage = () => {
                     onChange={(e) => handleChange(e, "education", index)}
                     required
                   />
-                  <label htmlFor={`year-${index}`}>Degree</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id={`degree-${index}`}
-                    name="degree"
-                    value={edu.degree}
-                    onChange={(e) => handleChange(e, "education", index)}
-                    required
-                  />
                 </div>
               ))}
               <div className="d-flex justify-content-end">
                 <button
                   type="button"
-                  className="btn btn-secondary "
+                  className="btn btn-primary "
                   onClick={() => handleAddField("education")}
                 >
-                  Add More
+                  Add
                 </button>
               </div>
             </div>
             <div className="section">
               <hr className="my-4 bg-secondary" />
-              <h3 className=" text-primary">Experience</h3>
+              <h3 className="text-primary">Experience</h3>
               <hr className="my-4 bg-secondary" />
 
               {formData.experience.map((exp, index) => (
@@ -201,10 +232,10 @@ const EditResumePage = () => {
               <div className="d-flex justify-content-end">
                 <button
                   type="button"
-                  className="btn btn-secondary"
-                  onClick={() => handleAddField("")}
+                  className="btn btn-primary"
+                  onClick={() => handleAddField("experience")}
                 >
-                  Add More
+                  Add
                 </button>
               </div>
             </div>
@@ -214,10 +245,22 @@ const EditResumePage = () => {
               <h3 className=" text-primary">Skills</h3>
               <hr className="my-4 bg-secondary" />
               <ReactTags
-                id="skills"
-                tags={skills}
-                handleAddition={handleAddSkill}
-                handleDelete={handleDeleteSkill}
+                tags={tags}
+                suggestions={skillsuggestions}
+                delimiters={delimiters}
+                handleDelete={handleDelete}
+                handleAddition={handleAddition}
+                handleDrag={handleDrag}
+                handleTagClick={handleTagClick}
+                inputFieldPosition="bottom"
+                autocomplete
+                editable
+                classNames={{
+                  tagInputField: "form-control w-100",
+                  selected: "badge",
+                  tag: "badge badge-primary mr-1 mb-1 py-2 px-2",
+                  remove: "badge badge-light ml-1",
+                }}
               />
             </div>
             <button type="submit" className="btn btn-primary btn-block my-4">
