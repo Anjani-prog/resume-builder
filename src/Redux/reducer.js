@@ -26,6 +26,10 @@ const resumeSlice = createSlice({
     updatePersonalInfo: (state, action) => {
       state.personalInfo = action.payload;
     },
+    updateEducation: (state, action) => {
+      console.log(action.payload);
+      state.education = action.payload.education;
+    },
     // addEducation: (state, action) => {
     //   state.education.push(action.payload);
     // },
@@ -67,6 +71,7 @@ const resumeSlice = createSlice({
 export const {
   updatePersonalInfo,
   updateMenu,
+  updateEducation,
   //   addEducation,
   //   updateEducation,
   //   deleteEducation,

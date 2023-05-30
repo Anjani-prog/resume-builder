@@ -22,7 +22,7 @@ class BasicForm extends Component {
                   className="text-primary font-weight-bold"
                   htmlFor="firstName"
                 >
-                  First Name
+                  First Name:
                 </label>
                 <Field
                   name="firstName"
@@ -37,7 +37,7 @@ class BasicForm extends Component {
                   className="text-primary font-weight-bold"
                   htmlFor="lastName"
                 >
-                  Last Name
+                  Last Name:
                 </label>
                 <Field
                   name="lastName"
@@ -52,7 +52,7 @@ class BasicForm extends Component {
                   className="text-primary font-weight-bold"
                   htmlFor="email"
                 >
-                  Email
+                  Email:
                 </label>
                 <Field
                   name="email"
@@ -67,7 +67,7 @@ class BasicForm extends Component {
                   className="text-primary font-weight-bold"
                   htmlFor="phoneNumber"
                 >
-                  Phone Number
+                  Phone Number:
                 </label>
                 <Field
                   name="phoneNumber"
@@ -82,7 +82,7 @@ class BasicForm extends Component {
                   className="text-primary font-weight-bold"
                   htmlFor="phoneNumber"
                 >
-                  Address
+                  Address:
                 </label>
                 <Field
                   name="address"
@@ -93,13 +93,13 @@ class BasicForm extends Component {
                 />
               </div>
 
-              <button
+              {/* <button
                 type="submit"
                 label="submit"
                 className="btn btn-primary btn-block my-4 font-weight-bold"
               >
                 Proceed Next
-              </button>
+              </button> */}
             </form>
           </div>
         </div>
@@ -109,7 +109,7 @@ class BasicForm extends Component {
 }
 
 BasicForm = reduxForm({
-  form: "login",
+  form: "basic",
 })(BasicForm);
 
 export default BasicForm;

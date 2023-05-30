@@ -1,8 +1,12 @@
 import React, { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Form from "./BasicForm";
+import EducationForm from "./EducationForm";
+import ExperienceForm from "./ExperienceForm";
+import { SkillsForm } from "./SkillsForm";
 import { updatePersonalInfo, updateMenu } from "../../Redux/reducer";
-
+import { toast } from "react-custom-alert";
+const alertError = (message) => toast.error(message);
 const withAccordion = (WrappedComponent) => {
   return function AccordionWrapper(props) {
     const menu = useSelector((state) => state.resume.menu);
@@ -64,33 +68,59 @@ const Accordion = ({ item, isItemOpen, handleItemClick }) => {
 const EnhancedAccordion = withAccordion(Accordion);
 
 export default function EditResume() {
+  const menu = useSelector((state) => state);
+
   const dispatch = useDispatch();
+  const [tags, setTags] = React.useState([{ id: "react", text: "react" }]);
 
   const SubmitBasic = (inputs) => {
-    console.log("Submit Basic Info");
     dispatch(updatePersonalInfo(inputs));
     dispatch(updateMenu(1));
   };
-
+  function isObjectEmpty(obj) {
+    return Object.keys(obj).length === 0;
+  }
   const SubmitEducation = (inputs) => {
-    console.log("Submit Education Info");
-    dispatch(updatePersonalInfo(inputs));
-    dispatch(updateMenu(2));
+    if (!isObjectEmpty(inputs)) {
+      // dispatch(updateEducation(inputs));
+      dispatch(updateMenu(2));
+    } else {
+      alertError("Add atleast one Education Details");
+    }
+  };
+
+  const SubmitExperience = (inputs) => {
+    if (!isObjectEmpty(inputs)) {
+      //  dispatch(updateEducation(inputs));
+      dispatch(updateMenu(3));
+    } else {
+      alertError("Add atleast one Experience Details");
+    }
   };
 
   const MENUS = [
     { name: "Basic", component: <Form onSubmit={SubmitBasic} />, id: 0 },
     {
       name: "Education",
-      component: <Form onSubmit={SubmitEducation} />,
+      component: <EducationForm onSubmit={SubmitEducation} />,
       id: 1,
     },
-    { name: "Experience", component: <Form onSubmit={SubmitBasic} />, id: 2 },
-    { name: "Skills", component: <Form onSubmit={SubmitBasic} />, id: 3 },
+    {
+      name: "Experience",
+      component: <ExperienceForm onSubmit={SubmitExperience} />,
+      id: 2,
+    },
+    {
+      name: "Skills",
+      component: (
+        <SkillsForm tags={tags} setTags={setTags} onSubmit={SubmitBasic} />
+      ),
+      id: 3,
+    },
   ];
 
   const buildResume = () => {
-    console.log("dhsag");
+    console.log(menu.form);
   };
   return (
     <div className="mx-3" id="accordion">
@@ -103,7 +133,7 @@ export default function EditResume() {
         className="btn btn-primary btn-block my-4 font-weight-bold"
         onClick={() => buildResume()}
       >
-        Submit Details
+        Submit Details and View Resume
       </button>
     </div>
   );

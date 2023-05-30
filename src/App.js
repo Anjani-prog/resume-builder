@@ -7,6 +7,8 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./Styles/custom.css";
 import { Provider } from "react-redux";
 import store from "./Redux/store";
+import { ToastContainer } from "react-custom-alert";
+import "react-custom-alert/dist/index.css"; // import css file from root.
 
 const Layout = () => {
   return <div></div>;
@@ -32,6 +34,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      <ToastContainer floatingTime={1000} />;
     </Provider>
   );
 }
