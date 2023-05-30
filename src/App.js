@@ -20,7 +20,7 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <h1 className="d-flex justify-content-center align-items-center text-secondary my-4">
+        <h1 className="d-flex justify-content-center align-items-center text-primary my-4">
           Resume Builder
         </h1>
         <Routes>

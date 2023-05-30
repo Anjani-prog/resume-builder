@@ -1,15 +1,18 @@
-import React from "react";
+import React, { Fragment } from "react";
 
-export const Input = ({ name, value, onChange }) => {
+export const myInput = (props) => {
+  const { input, type, meta } = props;
   return (
-    <input
-      type="text"
-      className="form-control"
-      id={name}
-      name={name}
-      //   value={value}
-      //   onChange={onChange}
-      required
-    />
+    <Fragment>
+      <input
+        className="form-control"
+        {...props.input}
+        type={props.type}
+        placeholder={props.placeholder}
+      />
+      {meta.error && meta.touched && (
+        <div className="alert alert-danger">{meta.error}</div>
+      )}
+    </Fragment>
   );
 };
