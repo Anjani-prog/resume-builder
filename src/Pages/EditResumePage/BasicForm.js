@@ -6,8 +6,6 @@ import {
   validateEmail,
   validatePhoneNumber,
 } from "../../Validation/index";
-import "react-redux";
-import "redux";
 
 class BasicForm extends Component {
   render() {
@@ -93,13 +91,13 @@ class BasicForm extends Component {
                 />
               </div>
 
-              {/* <button
+              <button
                 type="submit"
                 label="submit"
                 className="btn btn-primary btn-block my-4 font-weight-bold"
               >
                 Proceed Next
-              </button> */}
+              </button>
             </form>
           </div>
         </div>
@@ -110,6 +108,7 @@ class BasicForm extends Component {
 
 BasicForm = reduxForm({
   form: "basic",
+  enableReinitialize: true,
 })(BasicForm);
 
 export default BasicForm;

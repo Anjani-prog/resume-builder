@@ -1,5 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { initialize } from "redux-form";
 import Form from "./BasicForm";
 import EducationForm from "./EducationForm";
 import ExperienceForm from "./ExperienceForm";
@@ -72,6 +73,19 @@ export default function EditResume() {
 
   const dispatch = useDispatch();
   const [tags, setTags] = React.useState([{ id: "react", text: "react" }]);
+
+  const eductionData = {
+    education: [{}],
+  };
+
+  const experienceData = {
+    experience: [{}],
+  };
+
+  useEffect(() => {
+    dispatch(initialize("education", eductionData));
+    dispatch(initialize("experience", experienceData));
+  }, []);
 
   const SubmitBasic = (inputs) => {
     dispatch(updatePersonalInfo(inputs));

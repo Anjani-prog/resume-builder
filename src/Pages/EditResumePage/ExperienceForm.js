@@ -92,7 +92,7 @@ const ExperienceForm = (props) => {
         <div className="col-md-12">
           <form onSubmit={handleSubmit}>
             <FieldArray name="experience" component={renderExperience} />
-            {/* <div>
+            <div>
               <button
                 disabled={submitting}
                 type="submit"
@@ -101,7 +101,7 @@ const ExperienceForm = (props) => {
               >
                 Proceed Next
               </button>
-            </div> */}
+            </div>
           </form>
         </div>
       </div>
@@ -112,6 +112,4 @@ const ExperienceForm = (props) => {
 export default reduxForm({
   form: "experience", // a unique identifier for this form
   enableReinitialize: true,
-  keepDirtyOnReinitialize: true,
-  updateUnregisteredFields: true,
 })(ExperienceForm);
